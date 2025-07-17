@@ -1,0 +1,32 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<h2> Overview of the ChatClient GUI Functionality </h2>
+<p>This program represents the GUI that a client will see when staring the program.  It gives the user the ablilty to connect to
+    a given server with an IP address and port number, send messages through a text box and disconnect from the server.
+</p>
+
+<h2> Design Decisions </h2>
+<p>The design decisions we decided to implement are:
+
+- A text box that clears after the message is sent.  Do accomplish this we added a new private method that handles a key press
+  as well as a private member that stores the text input.  The message now sends on an "Enter" key press.
+- The chat will clear when a user disconnects
+    - When a user join the chat they will be sent the last 100 messages sent to that chat.
+</p>
+
+<h2>BIG BUG:</h2>
+<ul>
+    <li>
+        One bug we ran into that took us a second to figure out was that when a different user disconnected, the server disconnected the current user (or any current users.)
+        After some deeper research we saw that there was no updating in the currConnections of each user if a user left, leaving a connection that was closed that the users still tried to
+        talk to. We fixed this by putting our currConnections in the while loop and starting fresh each time, since connections has an updated copy of the connections.
+    </li>
+    <li>
+        Chats are send with the enter key.
+    </li>
+</ul>
+

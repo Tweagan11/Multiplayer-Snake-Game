@@ -1,0 +1,35 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Our Snake Project (Teagan and Chase)</h1>
+
+<h2>Implemented Designs</h2>
+<ul>
+    <li>
+        Textures for the wall and background objects.
+    </li>
+    <li>
+        A leader board that shows the current playing snakes in descending order by score.  The leader board will resize as
+        players connect and disconnect and prevents player names that are too long from clipping out of the box.
+    </li>
+    <li>
+        When a snake dies it turns black.
+    </li>
+    <li>
+        A connect and disconnect feature that fades away after a snake has joined or disconnected.
+    </li>
+</ul>
+
+<h2>
+    Future Fixes/Current Bugs
+</h2>
+<ul>
+    <li>
+        In our snake program, we noticed one bug that we could not figure out. The Connect and Disconnect work really well, but when a player is trying to leave the program by
+        clicking to a new tab or if they delete the tab they are on, it does not disconnect them on the server. We thoroughly researched what may be going on, and even tried altering the 
+        JavaScript and the Unload code to call the function, but it would not work for some reason. Spent about an hour or two just trying to debug and diagnose.
+        
+        Later, we found that the beforeunload works on some machines, and it disconnects properly when exiting the tab, but when switching the navigation it seems to not function properly anymore.
+    </li>
+</ul>

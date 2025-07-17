@@ -1,0 +1,659 @@
+﻿@page "/snakeclient"
+@rendermode InteractiveServer
+@inject ILogger<SnakeClient> Logger
+@inject IJSRuntime JsRuntime
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Mime
+@using Blazor.Extensions.Canvas
+@using CS3500.Networking
+@using System.Text
+@using System.Text.Json
+@using Blazor.Extensions
+@using Blazor.Extensions.Canvas.Canvas2D
+@using Microsoft.AspNetCore.Authorization.Infrastructure
+@using Snake.Client.Models
+@using CS3500.DBModels;
+
+
+<PageTitle>Snake Client</PageTitle>
+
+<h1>Snake Client</h1>
+
+<div id="ConnectionInputs">
+    <div class="input-row">
+        <label for="url"> Server Address: </label>
+        <input id="url" disabled="@network.IsConnected" type="text" @bind="ServerNameOrAddress" />
+        <label for="url"> Port: </label>
+        <input id="port" disabled="@network.IsConnected" type="number" @bind="ServerPort" class="port" />
+        @if (network.IsConnected)
+        {
+            <button class="btn btn-primary" @onclick="DisconnectFromServer">Disconnect</button>
+        }
+        else
+        {
+            <button class="btn btn-primary" @onclick="ConnectToServer">Connect</button>
+        }
+    </div>
+
+    <div class="input-row">
+        <label for="message"> Name (Max 16 Characters): </label>
+        <input @bind="textInput" id="message" disabled = "@network.IsConnected" type="text" maxlength="16"/>
+        <p id="message">Network: @networkStatus</p> <div class="spinner" style="display:@(networkStatus == "Connecting..." ? "block" : "none");"></div>
+    </div>
+
+    <div id="myCanvas">
+        <BECanvas Width="1000" Height="1000" @ref="canvasReference" />
+    </div>
+
+    <div style="display: none">
+        <BECanvas Width="1000" Height="1000" @ref="offScreenCanvasReference" />
+    </div>
+
+    @if (errorMessage != string.Empty)
+    {
+        <div class="modal fade show d-block" id="errorModal" tabindex="-1" aria-hidden="true" role="alert">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Error</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="HideModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>@errorMessage</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="HideModal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+<img id="myImage" src=@backgroundSource @ref="backgroundImg" style="display: none" />
+<img id="myImage" src=@wallSource @ref="wallImg" style="display:none"/>
+<img id="myImage" src=@menuSource @ref="menuImg" style="display:none" />
+
+@code
+{
+    /// <summary>
+    /// Default server name
+    /// </summary>
+    private string ServerNameOrAddress = "localhost";
+
+    /// <summary>
+    /// Default server port
+    /// </summary>
+    private int ServerPort = 11000;
+
+    /// <summary>
+    /// Used to display the error message to the user.
+    /// </summary>
+    private string errorMessage = string.Empty;
+
+    /// <summary>
+    /// Network Status
+    /// </summary>
+    private string networkStatus = "Waiting for you to connect.";
+
+    // Create all Image Elements to be used in the program
+    private ElementReference backgroundImg;
+    private ElementReference wallImg;
+    private ElementReference menuImg;
+
+    /// <summary>
+    /// Source for the background image
+    /// </summary>
+    private string backgroundSource = "/images/backgroundGrass.jpg";
+
+    /// <summary>
+    /// Texture for the walls
+    /// </summary>
+    private string wallSource = "/images/wallTextureResized.jpg";
+
+    /// <summary>
+    /// Texture for the walls
+    /// </summary>
+    private string menuSource = "/images/SNAKE.png";
+
+    /// <summary>
+    /// The NetworkConnection object representing a connection with the server
+    /// </summary>
+    private NetworkConnection network = null!;
+
+    /// <summary>
+    /// Contains the text input of the input box.
+    /// </summary>
+    private string textInput = string.Empty;
+
+    /// <summary>
+    /// The unique id for the player, sent by the server.
+    /// </summary>
+    private int PlayerId;
+
+    /// <summary>
+    /// Store the pattern to increase the efficiency of our program.
+    /// </summary>
+    private object ?cachedPattern;
+
+    /// <summary>
+    /// This will be set to the snake with the player ID given to more easily track the snake
+    /// </summary>
+    private SnakeModel Player = new();
+
+    /// <summary>
+    /// Keeps track of the head of the current player to move the world to the correct coordinates.
+    /// </summary>
+    private Point2D head = new();
+
+    /// <summary>
+    /// When handling the key press, checking that the same message isn't being sent over and over again to the server
+    /// by checking the current key with the previous key.
+    /// </summary>
+    private string prevKeyPress = string.Empty;
+
+    /// <summary>
+    /// The size of the world, sent by the server.
+    /// </summary>
+    private int WorldSize;
+
+    // Create Elements to load a temporary Canvas and draw a Canvas
+    private BECanvasComponent canvasReference = null!;
+    private Canvas2DContext context = null!;
+    private Canvas2DContext offScreenContext = null!;
+    private BECanvasComponent ?offScreenCanvasReference;
+
+    /// <summary>
+    /// Holds a copy of the world to draw.
+    /// </summary>
+    private WorldModel worldCopy = new();
+
+    // Initialize data for the GUI and the Display, such as FPS.
+    private int GUIWidth = 1000, GUIHeight = 1000;
+    private DateTime StartTime = DateTime.Now;
+    private int frameNumberGUI = 0;
+    private int frameNumberNetwork = 0;
+    private DateTime ConnectTime = DateTime.Now;
+
+    private IJSObjectReference? _jsModule = null;
+
+
+    /// <summary>
+    /// This holds all information from the world
+    /// coming in from the server. This is NOT used to
+    /// draw onto the canvas, instead a copy is made.
+    /// </summary>
+    private WorldModel world = new();
+
+    [JSInvokable]
+    public bool IsConnected()
+    {
+        return network.IsConnected;
+    }
+
+    /// <summary>
+    /// A dictionary containing snakes that have recently connected or disconnected.
+    /// </summary>
+    private Dictionary<SnakeModel, int> ConnectionStatuses = new();
+
+    /// <summary>
+    /// Disconnect the network object from the server.
+    /// </summary>
+    [JSInvokable]
+    public async void DisconnectFromServer()
+    {
+        Logger.LogInformation("Disconnecting from Server...");
+        network.Disconnect();
+
+        networkStatus = "Disconnected";
+
+        await _jsModule.InvokeVoidAsync("ToggleAnimation", false);
+
+        await DrawMenu();
+
+        StopGameDB();
+
+        await DisconnectDBSnake(Player);
+
+        // Since disconnected, discard the old connection and give the user a fresh network connection.
+        network = new NetworkConnection(Logger);
+        world = new WorldModel();
+        worldCopy = new WorldModel();
+        context = await canvasReference.CreateCanvas2DAsync();
+        Player = new SnakeModel();
+    }
+
+    /// <summary>
+    /// Handler for the connect button
+    /// Attempt to connect to the server, then start an asynchronous loop
+    /// to receive and display messages.
+    /// </summary>
+    private async void ConnectToServer()
+    {
+        Logger.LogInformation("Connecting...");
+
+        await Task.Run(() =>
+        {
+            networkStatus = "Connecting...";
+            try
+            {
+                network.Connect(ServerNameOrAddress, ServerPort);
+                // Send Name
+                network.Send(textInput);
+                networkStatus = "Connected";
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+                networkStatus = "Error";
+            }
+        });
+
+        if (network.IsConnected)
+        {
+            // Start Drawing
+            await _jsModule.InvokeVoidAsync("ToggleAnimation", true);
+            Logger.LogInformation("Successfully Connected Client to Server");
+        }
+
+        StateHasChanged();
+
+
+        // Communicating with the server needs to be asynchronous so that the UI thread
+        // can continue drawing.
+        if (network.IsConnected)
+        {
+            await Task.Run(async () =>
+            {
+
+                try
+                {
+                    PlayerId = int.Parse(network.ReadLine());
+                    WorldSize = int.Parse(network.ReadLine());
+
+                    // Connect and Initialize Game to Database
+                    StartGameDB();
+                }
+                catch
+                {
+                    Logger.LogInformation("Disconnected from Server.");
+                }
+                while (network.IsConnected)
+                {
+                    try
+                    {
+                        Logger.LogTrace("Deserializing Json String");
+                        string JsonString = string.Empty;
+                        try
+                        {
+                            JsonString = network.ReadLine();
+                        }
+                        catch
+                        {
+                            Logger.LogError("Error Reading Json");
+                        }
+                        try
+                        {
+                            if (JsonString.Contains("snake"))
+                            {
+                                SnakeModel snake = JsonSerializer.Deserialize<SnakeModel>(JsonString)!;
+                                UpdateWorldObjects(snake, world.Snakes, snake.Id, snake.dc);
+                                await CheckSnakeStatuses(snake);
+
+                                // Update Player snake and data to hold locally
+                                if (snake.Id == PlayerId)
+                                {
+                                    Player = snake;
+                                }
+
+                                if (snake.dc || snake.join)
+                                {
+                                    ConnectionStatuses.Add(snake, 500);
+                                }
+                            }
+                            else if (JsonString.Contains("wall"))
+                            {
+                                WallModel wall = JsonSerializer.Deserialize<WallModel>(JsonString)!;
+                                UpdateWorldObjects(wall, world.Walls, wall.Id);
+
+                            }
+                            else if (JsonString.Contains("power"))
+                            {
+                                PowerUpModel power = JsonSerializer.Deserialize<PowerUpModel>(JsonString)!;
+                                UpdateWorldObjects(power, world.PowerUps, power.Id, power.died);
+
+                            }
+                        }
+                        catch
+                        {
+                            Logger.LogError("Error Parsing Json");
+                        }
+                    }
+                    catch
+                    {
+                        // add anything needed here to handle a disconnection from the server
+                        Logger.LogInformation("Disconnected from Server.");
+                        DisconnectFromServer();
+                    }
+                }
+
+            });
+        }
+
+    }
+
+    /// <summary>
+    /// Main Draw function of our program. This takes in our world object,
+    /// copies into another world model to then draw each object from. To avoid flickering,
+    /// we have implemented an offscreen canvas as well as a main screen canvas, one to draw and another to show
+    /// the current objects in the world.
+    /// </summary>
+    /// <param name="timeStamp"></param>
+    /// <returns></returns>
+    [JSInvokable]
+    public async Task Draw(double timeStamp = 0)
+    {
+        frameNumberGUI++;
+
+        double fps = frameNumberGUI / (double)(DateTime.Now - StartTime).TotalSeconds;
+        int timeInSeconds = (int)(timeStamp / 1000);
+
+        if (Player.alive)
+        {
+            // Update head location to current Player
+            head = Player.body![^1];
+        }
+
+        try
+        {
+            lock (world)
+            {
+                worldCopy = world;
+            }
+
+            await offScreenContext.BeginBatchAsync();
+
+            // clip the view so that objects drawn outside the canvas will not be shown
+            await offScreenContext.BeginPathAsync();
+            await offScreenContext.RectAsync(0, 0, GUIWidth, GUIHeight);
+            await offScreenContext.ClipAsync();
+
+            // Because we are modifying the transformation matrix, we need to save it so we can restore it at the end
+            await offScreenContext.SaveAsync();
+
+            // Calculate offsets from world space
+            double offsetX = -(head.X - (GUIWidth / 2));
+            double offsetY = -(head.Y - (GUIHeight / 2));
+
+            // draw the sky outside of the game
+            await offScreenContext.SetFillStyleAsync("lightblue");
+            await offScreenContext.FillRectAsync(0, 0, WorldSize, WorldSize);
+
+            // Center on Origin
+            await offScreenContext.TranslateAsync( WorldSize / 4, WorldSize / 4 );
+            await offScreenContext.TranslateAsync(-head.X, -head.Y);
+
+            // Draw the background:
+            await offScreenContext.DrawImageAsync(backgroundImg, -1000, -1000, 2000, 2000);
+
+
+            DrawPowerUps();
+            DrawWalls();
+            try
+            {
+                DrawSnakes();
+            }
+            catch
+            {
+                Logger.LogError("Error Drawing snakes");
+            }
+
+
+            await offScreenContext.RestoreAsync();
+
+            DrawHeadsUpDisplay(fps);
+
+            // If there are snakes that have connected or disconnected, draw the connection message.
+            if (ConnectionStatuses.Count != 0)
+            {
+                DrawConnectionStatus();
+            }
+
+            await offScreenContext.EndBatchAsync();
+
+            // Draw the World from the Offscreen Canvas
+            await context.DrawImageAsync(offScreenCanvasReference!.CanvasReference, 0,0);
+            StateHasChanged();
+        }
+        catch
+        {
+            Logger.LogError("Error drawing world");
+        }
+    }
+
+    /// <summary>
+    /// Draws the connection status of a player as they connect and disconnect from the server.
+    /// </summary>
+    private async void DrawConnectionStatus()
+    {
+        int offset = 0;
+        foreach (SnakeModel snake in ConnectionStatuses.Keys)
+        {
+            if (ConnectionStatuses[snake] < 1)
+            {
+                ConnectionStatuses.Remove(snake);
+            }
+            else
+            {
+                string connectionStatus = snake.dc ? "Disconnected" : "Connected";
+                await offScreenContext.SetFillStyleAsync($"rgba(255, 255, 255, {ConnectionStatuses[snake] * .100})");
+                await offScreenContext.FillTextAsync($"{snake.name} has {connectionStatus}", 30, 80 + (30 * offset));
+                offset++;
+                ConnectionStatuses[snake]--;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Draws a line between the given points.
+    /// </summary>
+    /// <param name="p1">The first point.</param>
+    /// <param name="p2">The second point.</param>
+    /// <param name="width">The width of the line.</param>
+    /// <param name="pattern">Style of the object to be drawn.</param>
+    private async void DrawLine(Point2D p1, Point2D p2, int width, object pattern)
+    {
+        await offScreenContext.SetFillStyleAsync(pattern);
+
+        if (p1.X == p2.X)
+        {
+            int length = Math.Abs(p1.Y - p2.Y);
+            int startY = Math.Min(p1.Y, p2.Y) - width / 2;
+
+            await offScreenContext.FillRectAsync(p1.X - width * .5, startY, width, length + width);
+        }
+        else
+        {
+            int length = Math.Abs(p1.X - p2.X);
+            int startX = Math.Min(p1.X, p2.X) - width / 2;
+
+            await offScreenContext.FillRectAsync(startX, p1.Y - width * .5, length + width, width);
+        }
+    }
+
+    /// <summary>
+    /// This draws the snakes of the world, as well as
+    /// updates if they are alive, and if they are still connected.
+    /// If they are dead, draw them red.
+    /// If they are disconnected, remove them from the leaderboard.
+    /// </summary>
+    private void DrawSnakes()
+    {
+        using var db = new AppDbContext();
+        foreach (var key in worldCopy.Snakes.Keys)
+        {
+            SnakeModel snake = worldCopy.Snakes[key];
+            string snakeColor;
+            if (snake.alive)
+            {
+                snakeColor = GetSnakeColor(snake.Id);
+            }
+            else
+            {
+                snakeColor = "black";
+            }
+
+            for (int i = 1; i < snake.body!.Count(); i++)
+            {
+                DrawLine(snake.body![i - 1], snake.body[i], 10, snakeColor);
+            }
+
+            DrawNameAboveSnake(snake);
+        }
+    }
+
+    /// <summary>
+    /// Draws Power Ups of the world, given through the worldCopy
+    /// </summary>
+    private async void DrawPowerUps()
+    {
+        foreach (var key in worldCopy.PowerUps.Keys)
+        {
+            PowerUpModel power = worldCopy.PowerUps[key];
+
+            await offScreenContext.BeginPathAsync();
+            await offScreenContext.ArcAsync(power.loc!.X, power.loc.Y, 8, 0, 2 * Math.PI);
+            await offScreenContext.SetFillStyleAsync("red");
+            await offScreenContext.FillAsync();
+
+        }
+    }
+
+    /// <summary>
+    /// Draws the Walls of the World given to worldCopy
+    /// </summary>
+    private void DrawWalls()
+    {
+        foreach (KeyValuePair<int, WallModel> keyPair in worldCopy.Walls)
+        {
+            WallModel wall = keyPair.Value;
+            DrawLine(wall.p1!, wall.p2!, 50, cachedPattern!);
+        }
+    }
+
+    private async void DrawHeadsUpDisplay(double fps)
+    {
+        // Draw Heads Up Display
+        await offScreenContext.SetFontAsync("20px Arial");
+        await offScreenContext.SetFillStyleAsync("white");
+        await offScreenContext.FillTextAsync($"FPS: {fps:F1}", 25, 30);
+        await offScreenContext.FillTextAsync($"{errorMessage}", 10, 120);
+
+        // Draw Leaderboard
+        await offScreenContext.SetStrokeStyleAsync("white");
+        await offScreenContext.SetLineWidthAsync(6);
+        await offScreenContext.StrokeRectAsync(700, 15, 250, 50 + (30 * worldCopy.Snakes.Count));
+        await offScreenContext.SetFontAsync("30px Airal");
+        await offScreenContext.FillTextAsync("Leaderboard", 745, 50);
+
+        // Draw Players
+        await offScreenContext.SetFontAsync("20px Airal");
+        List<SnakeModel> sortedSnakes = GetSortedSnakes(worldCopy);
+        int offset = 0;
+        foreach (SnakeModel snake in sortedSnakes)
+        {
+            await offScreenContext.FillTextAsync($"{snake.name} Score: {snake.score}", 725, 80 + (30 * offset));
+            offset++;
+        }
+    }
+
+    /// <summary>
+    /// Draws a players name above their snake model.
+    /// </summary>
+    /// <param name="snake">The snake who's name to draw.</param>
+    private async void DrawNameAboveSnake(SnakeModel snake)
+    {
+        await offScreenContext.SetShadowColorAsync("rgba(0, 0, 0, 0.5)");
+        await offScreenContext.SetShadowBlurAsync(10);
+        await offScreenContext.SetShadowOffsetXAsync(5);
+        await offScreenContext.SetShadowOffsetYAsync(5);
+        await offScreenContext.SetFontAsync("20px Calibri");
+        await offScreenContext.SetFillStyleAsync("white");
+        await offScreenContext.FillTextAsync(snake.name, snake.body[^1].X -10, snake.body[^1].Y - 22);
+        await offScreenContext.SetShadowColorAsync("rgba(0, 0, 0, 0)");
+    }
+
+    /// <summary>
+    /// Draws the Image for the menu so that players aren't left with a random frame drawn.
+    /// </summary>
+    /// <returns></returns>
+    private async Task DrawMenu()
+    {
+
+        // Clear the canvas
+        await context.ClearRectAsync(0, 0, GUIWidth, GUIHeight);
+
+        // Draw the background
+        await context.DrawImageAsync(menuImg,0,0);
+    }
+
+    /// <summary>
+    ///   The first time we start up, we load our JavaScript and start the animation
+    ///   process.
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Logger.LogDetailsBrief( LogLevel.Debug, "First Render" );
+
+            _jsModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./Pages/SnakeClient.razor.js");
+            context = await canvasReference.CreateCanvas2DAsync();
+            offScreenContext = await offScreenCanvasReference.CreateCanvas2DAsync();
+            cachedPattern = await offScreenContext.CreatePatternAsync(wallImg, RepeatPattern.Repeat);
+            errorMessage = string.Empty;
+
+            await DrawMenu();
+
+
+            await _jsModule.InvokeVoidAsync("initJS", DotNetObjectReference.Create(this));
+        }
+    }
+
+    private void HideModal()
+    {
+        errorMessage = string.Empty;
+        networkStatus = "Waiting for you to connect";
+    }
+
+    /// <summary>
+    ///   <para>
+    ///     This method is called from the JavaScript side of the
+    ///     browser.
+    ///   </para>
+    ///   <remarks>
+    ///      Must be PUBLIC for JavaScript to call!
+    ///   </remarks>
+    /// </summary>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    [JSInvokable]
+    public void ResizeInBlazor(int width, int height)
+    {
+        Logger.LogTrace("Resizing the web page. {width} {height}", width, height);
+        GUIWidth = Math.Min(Math.Max(100, width), 1000);
+        GUIHeight = Math.Min(Math.Max(100, height), 1000);
+        DrawMenu();
+    }
+
+    /// <summary>
+    ///   Create a default network object
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        network = new(Logger);
+    }
+}

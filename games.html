@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previously Played Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #6200ea;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+            table th, table td {
+                border: 1px solid #ddd;
+                padding: 12px;
+                text-align: left;
+            }
+
+            table th {
+                background-color: #6200ea;
+                color: white;
+            }
+
+            table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            table tr:hover {
+                background-color: #f1f1f1;
+            }
+
+        a {
+            text-decoration: none;
+            color: #6200ea;
+        }
+
+            a:hover {
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Previously Played Games</h1>
+        <a href="index.html">Back to Home</a>
+    </header>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Game Name</th>
+                    <th>Date Played</th>
+                    <th>Winner</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Chess</td>
+                    <td>2024-11-20</td>
+                    <td>Alice</td>
+                </tr>
+                <tr>
+                    <td>Monopoly</td>
+                    <td>2024-11-18</td>
+                    <td>Bob</td>
+                </tr>
+                <tr>
+                    <td>Scrabble</td>
+                    <td>2024-11-15</td>
+                    <td>Carol</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
