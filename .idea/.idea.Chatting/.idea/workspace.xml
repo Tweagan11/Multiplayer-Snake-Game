@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c105de7e-10ad-47cc-aa92-b4a7fd9d0e76" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/ChatClient.Client.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/Pages/ChatClient.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/Pages/ChatClient.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/_Imports.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/stylecop.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/wwwroot/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient.Client/wwwroot/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/ChatClient.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/App.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Layout/MainLayout.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Layout/MainLayout.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Layout/NavMenu.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Layout/NavMenu.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Pages/Error.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Pages/Home.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/Routes.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Components/_Imports.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/stylecop.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/wwwroot/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/wwwroot/bootstrap/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/wwwroot/bootstrap/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatClient/ChatClient/wwwroot/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatServer/ChatServer - Backup.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatServer/ChatServer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatServer/ChatServer.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatServer/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ChatServer/stylecop.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Chatting.sln" beforeDir="false" afterPath="$PROJECT_DIR$/MultiplayerSnakeGame.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/App.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Layout/MainLayout.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Layout/MainLayout.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Layout/NavMenu.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Layout/NavMenu.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Pages/Error.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Pages/Home.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/Routes.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Components/_Imports.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Pages/Counter.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/TestCode.Client.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/_Imports.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/wwwroot/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/wwwroot/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/wwwroot/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/wwwroot/bootstrap/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/wwwroot/bootstrap/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode.Client/wwwroot/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/App.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Layout/MainLayout.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Layout/MainLayout.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Layout/NavMenu.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Layout/NavMenu.razor.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Pages/Error.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Pages/Home.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Pages/Weather.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/Routes.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Components/_Imports.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/Properties/launchSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/TestCode.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/appsettings.Development.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/appsettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/wwwroot/app.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/wwwroot/bootstrap/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/wwwroot/bootstrap/bootstrap.min.css.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestCode/TestCode/wwwroot/favicon.png" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DpaMonitoringSettings">
+    <option name="firstShow" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Snake/Snake/Properties/launchSettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/WebServer/Program.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="37zhyxzlgffzmnToDjFsI5SDXCS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Executable.Server.exe.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.Snake: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.ChatClient.Client.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.ChatServer.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.Snake.Client.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Project.WebServer.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/Teagan/Documents/GitHub/Multiplayer-Snake-Game&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;SolutionBuilderGeneralOptionsPage&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected=".NET Project.WebServer">
+    <configuration name="ChatClient.Client" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/ChatClient/ChatClient.Client/ChatClient.Client.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ChatServer" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/ChatServer/ChatServer.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Snake.Client" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/Snake/Snake.Client/Snake.Client.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="WebServer" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/WebServer/WebServer.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ChatClient: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ChatClient/ChatClient/ChatClient.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="http" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ChatClient: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/ChatClient/ChatClient/ChatClient.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="https" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Snake: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Snake/Snake/Snake.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="http" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Snake: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Snake/Snake/Snake.csproj" />
+      <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
+      <option name="LAUNCH_PROFILE_NAME" value="https" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="GENERATE_APPLICATIONHOST_CONFIG" value="1" />
+      <option name="SHOW_IIS_EXPRESS_OUTPUT" value="0" />
+      <option name="SEND_DEBUG_REQUEST" value="1" />
+      <option name="ADDITIONAL_IIS_EXPRESS_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Server.exe" type="RunExe" factoryName=".NET Executable" temporary="true">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/ServerSide/Server.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/ServerSide" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="AUTO_ATTACH_CHILDREN" value="0" />
+      <method v="2">
+        <option name="Build Solution" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Executable.Server.exe" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c105de7e-10ad-47cc-aa92-b4a7fd9d0e76" name="Changes" comment="" />
+      <created>1767912065194</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1767912065194</updated>
+      <workItem from="1767912067441" duration="807000" />
+      <workItem from="1767990522138" duration="1378000" />
+      <workItem from="1768454317320" duration="348000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+</project>
